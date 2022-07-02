@@ -84,8 +84,8 @@ fun PowerUpsList(
     val loadError by remember { viewModel.loadError }
 
     LazyColumn(contentPadding = PaddingValues(16.dp)) {
-        val grouped = powerUpsList.groupBy { it.connected }
-        grouped.forEach { (connected, powerUpsList) ->
+        val groupedPowerUps = powerUpsList.groupBy { it.connected }
+        groupedPowerUps.forEach { (connected, powerUps) ->
             stickyHeader {
                 Text(
                     text = if (connected) stringResource(id = R.string.active_power_ups_label) else stringResource(
@@ -98,7 +98,7 @@ fun PowerUpsList(
                         .fillMaxWidth()
                 )
             }
-            items(powerUpsList) { item ->
+            items(powerUps) { item ->
                 PowerUpItem(assignmentData = item, navController)
             }
         }

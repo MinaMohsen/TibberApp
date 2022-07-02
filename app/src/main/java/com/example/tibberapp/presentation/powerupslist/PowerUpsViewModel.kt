@@ -8,6 +8,7 @@ import com.example.tibberapp.domain.model.AssignmentData
 import com.example.tibberapp.domain.usecase.GetPowerUpsUseCase
 import com.example.tibberapp.util.Resource
 import com.example.tibberapp.presentation.util.UiText
+import com.example.tibberapp.util.Constants.NO_INTERNET_CONNECTION_ERROR_CODE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -33,17 +34,20 @@ class PowerUpsViewModel @Inject constructor(
                 when (result) {
                     is Resource.Success -> {
                         isLoading.value = false
-                        powerUpsList.value = result.data?.sortedByDescending { it.connected } ?: emptyList()
+                        powerUpsList.value = result.data ?: emptyList()
                     }
                     is Resource.Error -> {
                         isLoading.value = false
                         result.message?.let {
-                            loadError.value = UiText.DynamicString(it)
+                            if (result.errorCode == NO_INTERNET_CONNECTION_ERROR_CODE)
+                                loadError.value =
+                                    UiText.StringResource(resId = R.string.check_internet)
+                            else
+                                loadError.value = UiText.DynamicString(it)
                         } ?: run {
                             loadError.value =
                                 UiText.StringResource(resId = R.string.error_unexpected_message)
                         }
-
                     }
                 }
             }

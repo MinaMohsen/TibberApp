@@ -4,6 +4,7 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.coroutines.await
 import com.example.tibberapp.data.mappers.mapToDomainModel
 import com.example.tibberapp.domain.model.AssignmentData
+import com.example.tibberapp.util.Constants.NO_INTERNET_CONNECTION_ERROR_CODE
 import com.example.tibberapp.util.Resource
 import com.example.tipperapp.GetPowerUpsQuery
 import javax.inject.Inject
@@ -22,10 +23,11 @@ class RemoteDataSourceImpl @Inject constructor(
                 result.data?.assignmentData()?.forEach { it ->
                     list.add(it.mapToDomainModel())
                 }
+                list.sortByDescending { it.connected }
                 Resource.Success(list)
             }
         } catch (e: Exception) {
-            Resource.Error(e.message)
+            Resource.Error(message = e.message, errorCode = NO_INTERNET_CONNECTION_ERROR_CODE)
         }
     }
 }

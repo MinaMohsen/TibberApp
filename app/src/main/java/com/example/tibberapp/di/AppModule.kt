@@ -20,23 +20,21 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGetPowerUpsUseCase(powerUpsRepository: PowerUpsRepository): GetPowerUpsUseCase {
-        return GetPowerUpsUseCase(powerUpsRepository)
-    }
+    fun provideGetPowerUpsUseCase(powerUpsRepository: PowerUpsRepository): GetPowerUpsUseCase =
+        GetPowerUpsUseCase(powerUpsRepository)
 
     @Provides
     @Singleton
-    fun provideRemoteDataSource(apolloClient: ApolloClient): RemoteDataSource {
-        return RemoteDataSourceImpl(apolloClient)
-    }
+    fun provideRemoteDataSource(apolloClient: ApolloClient): RemoteDataSource =
+        RemoteDataSourceImpl(apolloClient)
 
     @Provides
     @Singleton
     fun providePowerUpsRepository(
         remoteDataSource: RemoteDataSource
-    ): PowerUpsRepository {
-        return PowerUpsRepositoryImpl(remoteDataSource)
-    }
+    ): PowerUpsRepository =
+        PowerUpsRepositoryImpl(remoteDataSource)
+
 
     @Provides
     @Singleton

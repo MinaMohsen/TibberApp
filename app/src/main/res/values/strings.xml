@@ -9,6 +9,7 @@
     <string name="buy_at_tibber_label">Buy at the Tibber store</string>
     <string name="power_up_more_data_label">More about %s</string>
     <string name="retry_label">Retry</string>
+    <string name="check_internet">Please check your internet</string>
 
 
 

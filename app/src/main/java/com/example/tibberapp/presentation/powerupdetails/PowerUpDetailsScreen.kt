@@ -34,8 +34,7 @@ fun PowerUpDetailsScreen(
     val powerUp =
         navController.previousBackStackEntry?.savedStateHandle?.get<AssignmentData>(
             POWER_UP_DATA_KEY
-        )
-            ?: AssignmentData()
+        ) ?: AssignmentData()
 
     Scaffold(
         topBar = {
@@ -75,9 +74,7 @@ fun PowerUpHeader(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(
-                Color.White
-            )
+            .background(Color.White)
     ) {
         Row(
             modifier = Modifier
@@ -129,8 +126,6 @@ fun PowerUpHeader(
                     text = title,
                     style = MaterialTheme.typography.h6,
                     color = Gray600,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
                     textAlign = TextAlign.Start
                 )
                 Spacer(modifier = Modifier.height(2.dp))
@@ -138,8 +133,6 @@ fun PowerUpHeader(
                     text = description,
                     style = MaterialTheme.typography.body1,
                     color = Gray400,
-                    maxLines = 5,
-                    overflow = TextOverflow.Ellipsis,
                     textAlign = TextAlign.Start
                 )
             }
@@ -202,9 +195,7 @@ fun PowerUpMoreData(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(
-                Color.White
-            )
+            .background(Color.White)
     ) {
         Column(
             modifier = Modifier
