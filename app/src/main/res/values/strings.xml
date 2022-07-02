@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">TibberApp</string>
+    <string name="error_unexpected_message">Something went wrong, please try again.</string>
+    <string name="power_ups_title">Power-ups</string>
+    <string name="active_power_ups_label">Active power-ups</string>
+    <string name="available_power_ups_label">Available power-ups</string>
+    <string name="connect_to_tibber_label">Connect to Tibber</string>
+    <string name="disconnect_to_tibber_label">Disconnect from Tibber</string>
+    <string name="buy_at_tibber_label">Buy at the Tibber store</string>
+    <string name="power_up_more_data_label">More about %s</string>
+    <string name="retry_label">Retry</string>
+
+
+
+</resources>
