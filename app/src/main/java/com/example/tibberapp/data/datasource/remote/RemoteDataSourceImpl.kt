@@ -19,12 +19,9 @@ class RemoteDataSourceImpl @Inject constructor(
             if (result.hasErrors()) {
                 Resource.Error(result.errors?.first()?.message)
             } else {
-                val list = mutableListOf<AssignmentData>()
-                result.data?.assignmentData()?.forEach { it ->
-                    list.add(it.mapToDomainModel())
-                }
-                list.sortByDescending { it.connected }
-                Resource.Success(list)
+                val powerUps = result.data?.assignmentData()?.map { it.mapToDomainModel() }
+                    ?.sortedByDescending { it.connected } ?: mutableListOf()
+                Resource.Success(powerUps)
             }
         } catch (e: Exception) {
             Resource.Error(message = e.message, errorCode = NO_INTERNET_CONNECTION_ERROR_CODE)
