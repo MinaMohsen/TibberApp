@@ -34,7 +34,8 @@ class PowerUpsViewModel @Inject constructor(
                 when (result) {
                     is Resource.Success -> {
                         isLoading.value = false
-                        powerUpsList.value = result.data ?: emptyList()
+                        powerUpsList.value =
+                            result.data?.sortedByDescending { it.connected } ?: emptyList()
                     }
                     is Resource.Error -> {
                         isLoading.value = false

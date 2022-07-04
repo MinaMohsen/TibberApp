@@ -20,7 +20,7 @@ class RemoteDataSourceImpl @Inject constructor(
                 Resource.Error(result.errors?.first()?.message)
             } else {
                 val powerUps = result.data?.assignmentData()?.map { it.mapToDomainModel() }
-                    ?.sortedByDescending { it.connected } ?: mutableListOf()
+                    ?: mutableListOf()
                 Resource.Success(powerUps)
             }
         } catch (e: Exception) {
