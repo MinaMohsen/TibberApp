@@ -3,17 +3,16 @@ package com.example.tibberapp.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.example.tibberapp.domain.model.AssignmentData
 import com.example.tibberapp.presentation.powerupdetails.PowerUpDetailsScreen
 import com.example.tibberapp.presentation.powerupslist.PowerUpsListScreen
+import com.example.tibberapp.presentation.powerupslist.PowerUpsViewModel
 import com.example.tibberapp.presentation.util.Screen
 import com.example.tibberapp.ui.theme.TibberAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,12 +32,14 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         startDestination = Screen.PowerUpsListScreen.route
                     ) {
+                        val viewModel: PowerUpsViewModel by viewModels()
                         composable(route = Screen.PowerUpsListScreen.route) {
-                            PowerUpsListScreen(navController = navController)
+                            PowerUpsListScreen(navController = navController, viewModel)
                         }
                         composable(route = Screen.PowerUpDetailsScreen.route) {
                             PowerUpDetailsScreen(
-                                navController = navController
+                                navController = navController,
+                                viewModel
                             )
                         }
                     }

@@ -19,6 +19,7 @@ class PowerUpsViewModel @Inject constructor(
     private val getPowerUpsUseCase: GetPowerUpsUseCase
 ) : ViewModel() {
 
+    val isRefreshing = mutableStateOf(false)
     val powerUpsList = mutableStateOf<List<AssignmentData>>(listOf())
     val isLoading = mutableStateOf(false)
     val loadError = mutableStateOf<UiText>(UiText.DynamicString(""))
@@ -34,11 +35,13 @@ class PowerUpsViewModel @Inject constructor(
                 when (result) {
                     is Resource.Success -> {
                         isLoading.value = false
+                        isRefreshing.value = false
                         powerUpsList.value =
                             result.data?.sortedByDescending { it.connected } ?: emptyList()
                     }
                     is Resource.Error -> {
                         isLoading.value = false
+                        isRefreshing.value = false
                         result.message?.let {
                             if (result.errorCode == NO_INTERNET_CONNECTION_ERROR_CODE)
                                 loadError.value =
@@ -53,6 +56,11 @@ class PowerUpsViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun refresh() {
+        isRefreshing.value = true
+        loadPowerUps()
     }
 
 }

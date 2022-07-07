@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
@@ -23,13 +22,15 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.example.tibberapp.R
 import com.example.tibberapp.domain.model.AssignmentData
+import com.example.tibberapp.presentation.powerupslist.PowerUpsViewModel
 import com.example.tibberapp.ui.theme.*
 import com.example.tibberapp.util.Constants.POWER_UP_DATA_KEY
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun PowerUpDetailsScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: PowerUpsViewModel
 ) {
     val powerUp =
         navController.previousBackStackEntry?.savedStateHandle?.get<AssignmentData>(
@@ -162,7 +163,7 @@ fun PowerUpActionButtons(
         }
     else
         Button(
-            onClick = {},
+            onClick = { },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 35.dp),

@@ -1,6 +1,7 @@
 package com.example.tibberapp.presentation.powerupslist
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -15,7 +16,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.tibberapp.R
 import androidx.compose.ui.Alignment
@@ -42,13 +42,16 @@ import com.example.tibberapp.ui.theme.Gray600
 import com.example.tibberapp.ui.theme.TibberBlue
 import com.example.tibberapp.ui.theme.TibberGray
 import com.example.tibberapp.util.Constants.POWER_UP_DATA_KEY
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.skydoves.landscapist.glide.GlideImage
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalFoundationApi
 @Composable
 fun PowerUpsListScreen(
     navController: NavController,
-    viewModel: PowerUpsViewModel = hiltViewModel()
+    viewModel: PowerUpsViewModel
 ) {
     Scaffold(
         topBar = {
@@ -82,27 +85,33 @@ fun PowerUpsList(
     val powerUpsList by remember { viewModel.powerUpsList }
     val isLoading by remember { viewModel.isLoading }
     val loadError by remember { viewModel.loadError }
+    val isRefreshing by remember { viewModel.isRefreshing }
 
-    LazyColumn(contentPadding = PaddingValues(16.dp)) {
-        val groupedPowerUps = powerUpsList.groupBy { it.connected }
-        groupedPowerUps.forEach { (connected, powerUps) ->
-            stickyHeader {
-                Text(
-                    text = if (connected) stringResource(id = R.string.active_power_ups_label) else stringResource(
-                        id = R.string.available_power_ups_label
-                    ),
-                    color = Gray400,
-                    modifier = Modifier
-                        .background(TibberGray)
-                        .padding(5.dp)
-                        .fillMaxWidth()
-                )
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isRefreshing),
+        onRefresh = { viewModel.refresh() },
+    ) {
+        LazyColumn(contentPadding = PaddingValues(16.dp)) {
+            val groupedPowerUps = powerUpsList.groupBy { it.connected }
+            groupedPowerUps.forEach { (connected, powerUps) ->
+                stickyHeader {
+                    Text(
+                        text = if (connected) stringResource(id = R.string.active_power_ups_label) else stringResource(
+                            id = R.string.available_power_ups_label
+                        ),
+                        color = Gray400,
+                        modifier = Modifier
+                            .background(TibberGray)
+                            .padding(5.dp)
+                            .fillMaxWidth()
+                    )
+                }
+                items(powerUps) { item ->
+                    PowerUpItem(assignmentData = item, navController)
+                }
             }
-            items(powerUps) { item ->
-                PowerUpItem(assignmentData = item, navController)
-            }
+
         }
-
     }
     Box(
         contentAlignment = Alignment.Center,
